@@ -1,90 +1,59 @@
 import React, {Component} from 'react';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Button from '@material-ui/core/Button';
+import PropTypes from 'prop-types';
+import transformWeather from '../../services/transformWeather';
+import getUrlWeatherByCity from '../../services/getUrlWeatherByCity';
 import Location from './Location';
 import WeatherData from './WeatherData';
+//import {api_weather} from '../../constants/api_url';
 import './styles.css';
+//import { RAIN } from '../../constants/weather';
 
 
-const dataValue = {
-    temperature: 14,
-    weatherState: 'rain',
-    humidity: 80,
-    wind: 11
-}
-
-const location = 'Buenos Aires,ar';
-const api_key = '07e4d7136ccd807bf21b6602fa57387a';
-const url_base_weather = 'http://api.openweathermap.org/data/2.5/weather'
-const api_weather = `${url_base_weather}?q=${location}&appid=${api_key}`;
-
-// const dataValue2 = {
-//     temperature: 26,
-//     weatherState: 'day-sunny',
-//     humidity: 10,
-//     wind: 5
+// const dataValue = {
+//     temperature: 14,
+//     weatherState: RAIN,
+//     humidity: 80,
+//     wind: 11
 // }
 
-// const WeatherLotacion = () => {
-//     return(
-//         <div className="weatherLocationCont">
-//             <Location city={"Buenos Aires"} />
-//             <WeatherData data={data}
-//             />
-//         </div>
-//     )
-// };
-
 class WeatherLotacion extends Component{
-    constructor(){
-        super();
+    constructor(props){
+        console.log('constructor');
+        super(props);
         this.state = {
-            city: 'Buenos Aires',
-            data: dataValue
+            city: props.city,
+            data: null
         }
     }
-    handlePromiseClick = () => {
-        let promesa = new Promise((resolve, rejected) => {
-            setTimeout(() => {
-                resolve('Exitoso');
-                //rejected('Hubo un error');
-            }, 2000);
-        });
-        console.log('Ahora comienza');
-        promesa
-        .then((mensaje) => console.log(mensaje))
-        .catch((error) => console.log(error))
-        .finally(() => console.log('Aca termina'));
-    }
+    // handlePromiseClick = () => {
+    //     let promesa = new Promise((resolve, rejected) => {
+    //         setTimeout(() => {
+    //             resolve('Exitoso');
+    //             //rejected('Hubo un error');
+    //         }, 2000);
+    //     });
+    //     console.log('Ahora comienza');
+    //     promesa
+    //     .then((mensaje) => console.log(mensaje))
+    //     .catch((error) => console.log(error))
+    //     .finally(() => console.log('Aca termina'));
+    // }
     
-    getData = weatherData => {
-        // const data = {
-        //     temperature:  Number((weatherData.main.temp - 273).toFixed(0)),
-        //     weatherState: 'cloud',
-        //     humidity: weatherData.main.humidity,
-        //     wind: Number((weatherData.wind.speed * 3.6).toFixed(1))
-        // }
-        const {temp, humidity} = weatherData.main;
-        const temperature = Number((temp - 273).toFixed(0));
-        const weatherState = 'cloud';
-        const wind = Number((weatherData.wind.speed * 3.6).toFixed(1));
-
-        const data = {
-            temperature,
-            weatherState,
-            humidity,
-            wind
-        }
-        return data;
-    }
+    
     handleUpdateClick = () =>{
         console.log('handleUpdateClick');
+        const api_weather = getUrlWeatherByCity(this.state.city)
         fetch(api_weather)
             .then(resolve =>{
                 //console.log(resolve);
                 return resolve.json();
                 }).then(data =>{
+                    const newWeather = transformWeather(data);
                     this.setState({
                         city: data.name,
-                        data: this.getData(data)
+                        data: newWeather
                     });
                 })
             .catch(rejected => {
@@ -96,17 +65,38 @@ class WeatherLotacion extends Component{
         //     data: dataValue2
         // });
     }
+    componentDidMount(){
+        console.log('componentDidMount');
+        this.handleUpdateClick();
+    }
+    componentDidUpdate(){
+        console.log('componentDidUpdate');
+    }
     render(){
+        console.log('render');
         return(
             <div className="weatherLocationCont">
                 <Location city={this.state.city} />
-                <WeatherData data={this.state.data}
-                />
-                <button onClick={this.handleUpdateClick}>Actualizar</button>
-                <button onClick={this.handlePromiseClick}>Promise</button>
+                {this.state.data ?
+                    <WeatherData data={this.state.data} /> :
+                    // 'Cargando..'
+                    <CircularProgress />
+                }
+                <Button 
+                    onClick={this.handleUpdateClick} 
+                    variant="outlined" 
+                    color="primary">
+                    Actualizar
+                </Button>
+                {/* <button onClick={this.handleUpdateClick}>Actualizar</button> */}
+                {/* <button onClick={this.handlePromiseClick}>Promise</button> */}
             </div>
         );
     }
+}
+
+WeatherLotacion.propTypes = {
+    city: PropTypes.string.isRequired,
 }
 
 export default WeatherLotacion;
