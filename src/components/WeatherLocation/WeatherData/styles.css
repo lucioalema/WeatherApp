@@ -1,10 +1,12 @@
 .weatherDataCont{
-    width: 400px;
+    width: 100%;
     height: 100px;
     line-height: 100px;
-    
+    margin-bottom: 10px;
     border-radius: 5px;
     background-color: rgba(200, 200, 200, 0.5);
+    padding: 5px;
+    box-sizing: border-box;
 }
 
 .weatherTemperatureCont{
@@ -21,7 +23,7 @@
 }
 
 .temperature{
-    font-size: 30px;
+    font-size: 28px;
     font-weight: bold;
     padding-left: 20px;
     color: #333;

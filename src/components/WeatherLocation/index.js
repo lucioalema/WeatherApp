@@ -20,7 +20,7 @@ import './styles.css';
 
 class WeatherLotacion extends Component{
     constructor(props){
-        console.log('constructor');
+        //console.log('constructor');
         super(props);
         this.state = {
             city: props.city,
@@ -43,7 +43,7 @@ class WeatherLotacion extends Component{
     
     
     handleUpdateClick = () =>{
-        console.log('handleUpdateClick');
+        //console.log('handleUpdateClick');
         const api_weather = getUrlWeatherByCity(this.state.city)
         fetch(api_weather)
             .then(resolve =>{
@@ -66,28 +66,30 @@ class WeatherLotacion extends Component{
         // });
     }
     componentDidMount(){
-        console.log('componentDidMount');
+        //console.log('componentDidMount');
         this.handleUpdateClick();
     }
     componentDidUpdate(){
-        console.log('componentDidUpdate');
+        //console.log('componentDidUpdate');
     }
     render(){
-        console.log('render');
+        //console.log('render');
+        const {onWeatherLocationClick} = this.props;
+        const {city, data} = this.state;
         return(
-            <div className="weatherLocationCont">
-                <Location city={this.state.city} />
+            <div className="weatherLocationCont" onClick={onWeatherLocationClick}>
+                <Location city={city} />
                 {this.state.data ?
-                    <WeatherData data={this.state.data} /> :
+                    <WeatherData data={data} /> :
                     // 'Cargando..'
                     <CircularProgress />
                 }
-                <Button 
+                {/* <Button 
                     onClick={this.handleUpdateClick} 
                     variant="outlined" 
                     color="primary">
                     Actualizar
-                </Button>
+                </Button> */}
                 {/* <button onClick={this.handleUpdateClick}>Actualizar</button> */}
                 {/* <button onClick={this.handlePromiseClick}>Promise</button> */}
             </div>
@@ -97,6 +99,7 @@ class WeatherLotacion extends Component{
 
 WeatherLotacion.propTypes = {
     city: PropTypes.string.isRequired,
+    onWeatherLocationClick: PropTypes.func,
 }
 
 export default WeatherLotacion;

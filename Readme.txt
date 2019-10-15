@@ -153,3 +153,28 @@ y agregar varias WeatherLocation
 para cambiar el icono, en transformWeather verificar el id y devolver una constantes
 
 crear strToComponents en LocationList y cargar un listado de ciudades desde App
+
+
+Burbujeo de eventos:
+Agregar onWeatherLocationClick a WeatherLocation
+Transformar LocationList en arrow Function multilinea 
+Transformar App en class Component
+
+Instalar npm install --save react-flexbox-grid
+Cambiar en App.js por Grid, Row, Column
+Agregar css
+Agregar PropTypes
+
+Agregar AppBar con Material-ui
+
+Agregar el componente ForecastExtended
+Agregar un estado city en App.js y setState en el handleSelectedLocation
+Manejo del estado inicial de city (opcion 2: null)
+Truthy y Falsy
+https://developer.mozilla.org/es/docs/Glossary/Truthy
+
+ForecastItem
+array de componentes
+Crear un fetch para el forecast
+Crear una funcion para transformar el forecast
+npm install moment --save

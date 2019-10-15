@@ -20,3 +20,18 @@
 .App-link {
   color: #09d3ac;
 }
+
+.detail {
+  background: #999;
+  height: 85vh;
+  width: calc(100% - 40px);
+  overflow: auto;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+
+@media (max-width: 47em) {
+  .detail {
+    height: 40vh;
+  } 
+}
