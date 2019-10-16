@@ -178,3 +178,11 @@ array de componentes
 Crear un fetch para el forecast
 Crear una funcion para transformar el forecast
 npm install moment --save
+
+
+Redux
+instalar redux, react-redux y la extension de chrome redux dev tools
+crear el store y dispatch en app.js
+crear el action y pasarselo al dispatch
+refactorizar en una carpeta actions y store
+Agregar react-redux en index.js principal
