@@ -6,23 +6,6 @@ import getUrlForecastByCity from '../services/getUrlForecastByCity';
 import transformForecast from '../services/transformForecast';
 import './styles.css';
 
-// const days = [
-//     'Lunes',
-//     'Martes',
-//     'Miércoles',
-//     'Jueves',
-//     'Viernes',
-//     'Sábado',
-//     'Domingo'
-// ];
-
-// const data = {
-//     temperature: 10,
-//     humidity: 10,
-//     weatherState: 'rain',
-//     wind: 10
-// }
-
 class ForecastExtended extends Component{
     constructor() {
         super();
@@ -70,19 +53,10 @@ class ForecastExtended extends Component{
                 data={forecast.data}
             />
         ));
-        //return <h3>Render Items</h3>
-        // return days.map( day => 
-        //     <ForecastItem 
-        //         weekDay={day}
-        //         hour={10}
-        //         data={data}
-        //     />
-        // );
     }
 
     renderProgress() {
         return <CircularProgress />
-        //return <h3>Cargando Pronóstico extendido</h3>;
     }
 
     render (){
