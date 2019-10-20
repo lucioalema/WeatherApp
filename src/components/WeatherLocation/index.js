@@ -8,54 +8,41 @@ import Location from './Location';
 import WeatherData from './WeatherData';
 import './styles.css';
 
-class WeatherLotacion extends Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            city: props.city,
-            data: null
+// componentDidMount(){
+//     const api_weather = getUrlWeatherByCity(this.state.city)
+//     fetch(api_weather).then(
+//         resolve => resolve.json())
+//     .then(data =>{
+//         const newWeather = transformWeather(data);
+//         this.setState({
+//             city: data.name,
+//             data: newWeather
+//         });
+//     })
+//     .catch(rejected => {
+//         console.log(rejected);
+//     })
+// }
+
+const WeatherLotacion = ({ onWeatherLocationClick, city, data }) => (
+    <div className="weatherLocationCont" onClick={onWeatherLocationClick}>
+        <Location city={city} />
+        {data ?
+            <WeatherData data={data} /> :
+            <CircularProgress />
         }
-    }
-    
-    handleUpdateClick = () =>{
-        const api_weather = getUrlWeatherByCity(this.state.city)
-        fetch(api_weather)
-            .then(resolve =>{
-                return resolve.json();
-                }).then(data =>{
-                    const newWeather = transformWeather(data);
-                    this.setState({
-                        city: data.name,
-                        data: newWeather
-                    });
-                })
-            .catch(rejected => {
-                console.log(rejected);
-            })
-    }
-    componentDidMount(){
-        this.handleUpdateClick();
-    }
-    componentDidUpdate(){
-    }
-    render(){
-        const {onWeatherLocationClick} = this.props;
-        const {city, data} = this.state;
-        return(
-            <div className="weatherLocationCont" onClick={onWeatherLocationClick}>
-                <Location city={city} />
-                {this.state.data ?
-                    <WeatherData data={data} /> :
-                    <CircularProgress />
-                }
-            </div>
-        );
-    }
-}
+    </div>
+);
 
 WeatherLotacion.propTypes = {
     city: PropTypes.string.isRequired,
     onWeatherLocationClick: PropTypes.func,
+    data: PropTypes.shape({
+        temperature: PropTypes.number.isRequired,
+        weatherState: PropTypes.string.isRequired,
+        humidity: PropTypes.number.isRequired,
+        wind: PropTypes.number.isRequired,
+    }),
 }
 
 export default WeatherLotacion;
